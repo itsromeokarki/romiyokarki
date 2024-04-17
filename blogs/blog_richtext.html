@@ -1,0 +1,72 @@
+<!DOCTYPE html><html><link rel="stylesheet" href="./blog_style.css"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Rich text editor and XSS .</title><style>
+    * {
+      font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      font-size: 50px;
+      margin-bottom: 17px;
+      color: #333;
+    }
+    h2 {
+      font-size: 24px;
+      line-height: 1.6;
+      margin: 30px 0 0 0;
+      margin-bottom: 18px;
+      margin-top: 33px;
+      color: #333;
+    }
+    h3 {
+      font-size: 30px;
+      margin: 10px 0 20px 0;
+      color: #333;
+    }
+    header {
+      width: 640px;
+      margin: auto;
+    }
+    section {
+      width: 640px;
+      margin: auto;
+    }
+    section p {
+      margin-bottom: 27px;
+      font-size: 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+    section img {
+      max-width: 640px;
+    }
+    footer {
+      padding: 0 20px;
+      margin: 50px 0;
+      text-align: center;
+      font-size: 12px;
+    }
+    .aspectRatioPlaceholder {
+      max-width: auto !important;
+      max-height: auto !important;
+    }
+    .aspectRatioPlaceholder-fill {
+      padding-bottom: 0 !important;
+    }
+    header,
+    section[data-field=subtitle],
+    section[data-field=description] {
+      display: none;
+    }
+    </style></head><body><article class="h-entry">
+<header>
+<h1 class="p-name">Rich text editor and XSS .</h1>
+</header>
+<section data-field="subtitle" class="p-summary">
+What is rich text editor ?
+</section>
+<section data-field="body" class="e-content">
+<section name="3987" class="section section--body section--first section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="86d2" id="86d2" class="graf graf--h3 graf--leading graf--title">Rich text editor and XSS .</h3><p name="833a" id="833a" class="graf graf--p graf-after--h3">What is rich text editor ?</p><p name="9905" id="9905" class="graf graf--p graf-after--p">The Rich Text Editor is a tool that allows you to add or edit content, images, links, and other components on the page without having to know any code.( google)</p><p name="e667" id="e667" class="graf graf--p graf-after--p">Some of the modern rich text editors are :</p><ul class="postList"><li name="6bd3" id="6bd3" class="graf graf--li graf-after--p">WYSIWYG HTML Editor</li><li name="93c7" id="93c7" class="graf graf--li graf-after--li">Froala</li><li name="1dfd" id="1dfd" class="graf graf--li graf-after--li">TinyMCE</li><li name="274c" id="274c" class="graf graf--li graf-after--li">CKEditor</li><li name="a9a4" id="a9a4" class="graf graf--li graf-after--li">Quill</li><li name="8e95" id="8e95" class="graf graf--li graf-after--li">Summernote</li></ul><p name="76ca" id="76ca" class="graf graf--p graf-after--li">With out wasting any time. Let’s dive into why rich text editors are highly susceptible to vulnerabilities and how web application pentesters and bug bounty hunters can uncover these flaws.</p><h3 name="6051" id="6051" class="graf graf--h3 graf-after--p">Why are they so damn vulnerable ?</h3><blockquote name="0a76" id="0a76" class="graf graf--blockquote graf-after--h3">User experience vs security</blockquote><figure name="6253" id="6253" class="graf graf--figure graf-after--blockquote"><img class="graf-image" data-image-id="1*ooS7LLmz3KNc2-yoiAYKyQ.png" data-width="499" data-height="278" data-is-featured="true" src="https://cdn-images-1.medium.com/max/800/1*ooS7LLmz3KNc2-yoiAYKyQ.png"></figure><p name="55ba" id="55ba" class="graf graf--p graf-after--figure">Many of the company want to provide best user experience to the user allowing them more features in text editor like “adding video”, “gif/svg”,headings”,”iframes” . When providing these features to users , Sometimes attacker can just only utilize these given features to users and create quite impactable damage to system .</p><blockquote name="196a" id="196a" class="graf graf--blockquote graf-after--p">Misconfiguration</blockquote><p name="dcdd" id="dcdd" class="graf graf--p graf-after--blockquote">Rich text editors often become vulnerable due to human error or a lack of comprehensive understanding of security concepts among developers. This can lead to developers inadvertently permitting the use of malicious HTML tags, thus creating vulnerabilities within the web app.</p><blockquote name="aa24" id="aa24" class="graf graf--blockquote graf-after--p">Outdated &amp; CVE’s</blockquote><p name="fc93" id="fc93" class="graf graf--p graf-after--blockquote">TinyMCE</p><p name="9ab8" id="9ab8" class="graf graf--p graf-after--p">Vulnerabilities that are found in TinyMCE :</p><figure name="9676" id="9676" class="graf graf--figure graf-after--p"><img class="graf-image" data-image-id="1*KS4HgSakqm7ojiLr4gPGug.png" data-width="1257" data-height="823" alt="https://www.cvedetails.com/vulnerability-list/vendor_id-11716/Tinymce.html" src="https://cdn-images-1.medium.com/max/800/1*KS4HgSakqm7ojiLr4gPGug.png"><figcaption class="imageCaption">8 vulnerabilties</figcaption></figure><p name="93d9" id="93d9" class="graf graf--p graf-after--figure">CKE editor</p><figure name="e967" id="e967" class="graf graf--figure graf-after--p"><img class="graf-image" data-image-id="1*YV-bcFeW4_k6c9M5cvOeDQ.png" data-width="1229" data-height="772" src="https://cdn-images-1.medium.com/max/800/1*YV-bcFeW4_k6c9M5cvOeDQ.png"><figcaption class="imageCaption">30 vulnerability were found</figcaption></figure><p name="7ed4" id="7ed4" class="graf graf--p graf-after--figure">Another reasons is latest exploit in the text editor itself. In previous image we can see different latest exploits are seen . If the developer doesn&#39;t update these text editor on time then attacker can exploit it .</p><blockquote name="9776" id="9776" class="graf graf--blockquote graf-after--p">Second order XSS</blockquote><figure name="1f8e" id="1f8e" class="graf graf--figure graf-after--blockquote"><img class="graf-image" data-image-id="1*zUdLoGJRbsvk57U0__-O3Q.png" data-width="1400" data-height="565" src="https://cdn-images-1.medium.com/max/800/1*zUdLoGJRbsvk57U0__-O3Q.png"></figure><p name="5066" id="5066" class="graf graf--p graf-after--figure">Another factor contributing to vulnerability is when applications manipulate user-supplied input or transfer it to various fields within the system. For instance, in Application A, user-provided data might be encoded in one field but left unencoded in another. To identify and test for these issues, it’s essential to send payloads encoded in different formats such as HTML, URL, and base64. I recommend also sending bxss payloads.</p><blockquote name="cecf" id="cecf" class="graf graf--blockquote graf-after--p">Lack of input &amp; output validation</blockquote><figure name="d9a7" id="d9a7" class="graf graf--figure graf-after--blockquote"><img class="graf-image" data-image-id="1*lgwSFVczS2Y8M9jT505eFA.png" data-width="488" data-height="276" src="https://cdn-images-1.medium.com/max/800/1*lgwSFVczS2Y8M9jT505eFA.png"></figure><p name="253e" id="253e" class="graf graf--p graf-after--figure">Validating user input on the backend and rechecking it on the frontend during rendering is crucial. Even if attackers succeed in injecting malicious code, these output validations will effectively prevent the injection attack</p><p name="caca" id="caca" class="graf graf--p graf-after--p">In my experience, I’ve encountered weak output validations in some instances that can be bypassed using encoding, bypass methods, mutation-based XSS payloads.</p><ol class="postList"><li name="54d7" id="54d7" class="graf graf--p graf-after--li">Identify Allowed HTML Tags:</li></ol><ul class="postList"><li name="27a3" id="27a3" class="graf graf--li graf-after--li">Start by examining the application’s source code or by using browser developer tools to inspect the elements.</li><li name="b8cb" id="b8cb" class="graf graf--li graf-after--li">Look for instances where user input is rendered onto the page. Note the HTML tags surrounding the input.</li></ul><p name="9d51" id="9d51" class="graf graf--p graf-after--li">2. Check for Interesting Tags:</p><ul class="postList"><li name="7331" id="7331" class="graf graf--li graf-after--p">Pay attention to tags like <code class="markup--code markup--li-code">&lt;iframe&gt;</code>, <code class="markup--code markup--li-code">&lt;video&gt;</code>, <code class="markup--code markup--li-code">&lt;math&gt;</code>, <code class="markup--code markup--li-code">&lt;svg&gt;</code>, <code class="markup--code markup--li-code">&lt;table&gt;</code>, <code class="markup--code markup--li-code">&lt;base&gt;</code>, etc., as these can have security implications.</li><li name="911e" id="911e" class="graf graf--li graf-after--li">If these tags are allowed, consider the potential security risks associated with them, such as XSS or injection attacks.</li></ul><p name="e495" id="e495" class="graf graf--p graf-after--li">3. Review Allowed Attributes:</p><ul class="postList"><li name="95d6" id="95d6" class="graf graf--li graf-after--p">Examine which attributes are allowed within the HTML tags.</li><li name="27b3" id="27b3" class="graf graf--li graf-after--li">Attributes like <code class="markup--code markup--li-code">onerror</code>, <code class="markup--code markup--li-code">onload</code>, <code class="markup--code markup--li-code">onfocus</code>, etc., are often exploited for XSS attacks, as they execute JavaScript code.</li></ul><p name="db2f" id="db2f" class="graf graf--p graf-after--li">4. Validate Input and Output:</p><ul class="postList"><li name="48a4" id="48a4" class="graf graf--li graf-after--p">Test the application with various inputs, including HTML tags and special characters, to observe how it handles them.</li><li name="2183" id="2183" class="graf graf--li graf-after--li">Check if the application properly sanitizes and validates user input to prevent XSS and other injection attacks.</li><li name="3eff" id="3eff" class="graf graf--li graf-after--li">Also, verify how the application filters or removes blacklisted tags and attributes.</li></ul><p name="9527" id="9527" class="graf graf--p graf-after--li">5. Attempt Mutation-Based XSS:</p><ul class="postList"><li name="e597" id="e597" class="graf graf--li graf-after--p">Try to bypass any input validation or filtering mechanisms by mutating the input.</li><li name="4b2e" id="4b2e" class="graf graf--li graf-after--li">Experiment with different combinations of tags, attributes, and payloads to see if you can trigger XSS vulnerabilities.</li></ul><p name="7e72" id="7e72" class="graf graf--p graf-after--li">6. Stay Updated:</p><ul class="postList"><li name="66ac" id="66ac" class="graf graf--li graf-after--p">Keep abreast of the latest security trends, vulnerabilities, and mitigation techniques.</li><li name="4b94" id="4b94" class="graf graf--li graf-after--li">Regularly review security advisories and updates related to the technologies and frameworks used in the application.</li></ul><p name="8a75" id="8a75" class="graf graf--p graf-after--li">I believe these aspects should be taken into account when testing rich text editors. Initially, they might not appear vulnerable, but over time, it becomes apparent whether investing time in testing them is worthwhile. Through this approach, I’ve discovered numerous XSS vulnerabilities in my bug bounty and web penetration testing endeavors.</p><p name="9ec6" id="9ec6" class="graf graf--p graf-after--p graf--trailing"><strong class="markup--strong markup--p-strong">Dont give up . Keep trying :)</strong></p></div></div></section>
+</section>
+<footer><p>By <a href="https://medium.com/@dotconcat" class="p-author h-card">.concat()</a> on <a href="https://medium.com/p/ebcc441bffcc"><time class="dt-published" datetime="2024-04-17T14:25:34.938Z">April 17, 2024</time></a>.</p><p><a href="https://medium.com/@dotconcat/rich-text-editor-and-xss-ebcc441bffcc" class="p-canonical">Canonical link</a></p><p>Exported from <a href="https://medium.com">Medium</a> on April 17, 2024.</p></footer></article></body></html>
