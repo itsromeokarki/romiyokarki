@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Blog</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel="stylesheet" href="blog_style.css">
+<style>
+       * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+      pre {
+        display: block;
+        padding: 5px 5px 5px 5px;
+        background-color: #f7f7f7;
+        border: 2px solid #444444 ;
+        border-radius: 2px;
+        border-radius: 5px;
+        font-family: 'Courier New', Courier, monospace;
+        white-space: pre-wrap; /* Preserve line breaks and spaces */
+        line-height: 1.4;
+        overflow-x:
+      }
+
+      .pre--content {
+        display: block;
+        padding: 30px 30px 30px 30px;
+        background-color: #f7f7f7;
+        border: 2px solid #444444 ;
+        border-radius: 2px;
+        border-radius: 5px;
+        font-family: 'Courier New', Courier, monospace;
+        white-space: pre-wrap; /* Preserve line breaks and spaces */
+        line-height: 1.4;
+        overflow-x: auto; /* Allow horizontal scrolling if needed */
+    }
+</style>
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="top">
+  <div class="header">
+    <h1><span>Vulnhub:Escalate my privilege </span></h1>
+    <h2 class="author"><a href="#">By Romiyo <em></em> Karki</a></h2>
+ 
+</div>
+</div>
+<div class="content">
+
+<!-- Content-->
+<div class="begin">
+  <div class="date">
+    <span>Feb</span>
+    <span class="day">6</span></br>
+  </div>
+</br>
+</br>
+
+<h1 class="p-name">Cookie and Session </h1>
+</header>
+<sect<header>
+<h1 class="p-name">Cookies ?</h1>
+</header>
+<section data-field="subtitle" class="p-summary">
+Exploring Cookies &amp; Sessions
+</section>
+<section data-field="body" class="e-content">
+<section name="5817" class="section section--body section--first section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="8671" id="8671" class="graf graf--h3 graf--leading graf--title">What are Cookies &amp; Sessions ?</h3><p name="f30a" id="f30a" class="graf graf--p graf-after--h3">Exploring Cookies &amp; Sessions</p><p name="e80d" id="e80d" class="graf graf--p graf-after--p">HTTP protocol is stateless ,Which means your previous request and your next request wont have any connection or link between them . So how do we maintain communication between them like in case of Login . There comes Session &amp; Cookies .</p><p name="9bc9" id="9bc9" class="graf graf--p graf-after--p">I guess everyone have faced that annoying “Want Cookie” thing ? I will explain why we get those annoying thing and how company use them to track us around different website.</p><figure name="1475" id="1475" class="graf graf--figure graf-after--p"><img class="graf-image" data-image-id="1*_ziztOCjvd174Kb7rjDYdw.jpeg" data-width="663" data-height="651" data-is-featured="true" src="https://cdn-images-1.medium.com/max/800/1*_ziztOCjvd174Kb7rjDYdw.jpeg"><figcaption class="imageCaption">Annoying Cookie !</figcaption></figure><h3 name="d3e5" id="d3e5" class="graf graf--h3 graf-after--figure">Session and Cookie</h3><p name="196f" id="196f" class="graf graf--p graf-after--h3">Cookie is just a text which is saved into our browser and will be passed into http request later . A session is a way to store information (in variables) to be used across multiple pages . They are stored in your Browser and in the server.</p><figure name="fe97" id="fe97" class="graf graf--figure graf-after--p"><img class="graf-image" data-image-id="1*5WcV7WaM02K8l3tU1Wx2bA.png" data-width="1186" data-height="721" src="https://cdn-images-1.medium.com/max/800/1*5WcV7WaM02K8l3tU1Wx2bA.png"></figure><p name="f530" id="f530" class="graf graf--p graf-after--figure">The above picture is of Cookies set by <strong class="markup--strong markup--p-strong">google.com</strong> . In Sessions storage section we can see all the sessions there .</p><p name="8594" id="8594" class="graf graf--p graf-after--p">I have created an php file which sets the session . As we can see the PHPSSID cookie is set with some encrypted value . What does it means ? How does server validate it ?</p><figure name="f68c" id="f68c" class="graf graf--figure graf-after--p"><img class="graf-image" data-image-id="1*mCrskIpKv3FpZ169UkY-dQ.png" data-width="1920" data-height="818" src="https://cdn-images-1.medium.com/max/800/1*mCrskIpKv3FpZ169UkY-dQ.png"></figure><p name="660c" id="660c" class="graf graf--p graf-after--figure">If you guys go on xammp/tmp folder .We can see many files .</p><pre name="b5df" id="b5df" class="graf graf--pre graf-after--p">/xammp/tmp </pre><figure name="a050" id="a050" class="graf graf--figure graf-after--pre"><img class="graf-image" data-image-id="1*a2b4HOgkOxDaGXbLRjrPww.png" data-width="942" data-height="620" src="https://cdn-images-1.medium.com/max/800/1*a2b4HOgkOxDaGXbLRjrPww.png"></figure><p name="73e2" id="73e2" class="graf graf--p graf-after--figure">We can see that there is file with sess_elc&lt;Value&gt;. If you compare the value with the session ID in previous screenshot the value matches . Now if we take a look at what’s inside at the file .</p><figure name="e3aa" id="e3aa" class="graf graf--figure graf-after--p"><img class="graf-image" data-image-id="1*BMIYD_GITooHFTSKzGa7eQ.png" data-width="770" data-height="497" src="https://cdn-images-1.medium.com/max/800/1*BMIYD_GITooHFTSKzGa7eQ.png"></figure><p name="e02c" id="e02c" class="graf graf--p graf-after--figure">We can see the sessions value in the following format .</p><pre name="b1bd" id="b1bd" class="graf graf--pre graf-after--p">SESSION[&#39;Name&#39;] | type:CharValue:Value;</pre><p name="27ed" id="27ed" class="graf graf--p graf-after--pre">We now know that server first takes the sessionID value from the cookie and looks into the corresponding file and will server the SESSION value which is inside that file .</p><p name="98c1" id="98c1" class="graf graf--p graf-after--p">So you guys might be wondering what’s different between cookies and sessions ? Sessions are stored in the server where as Cookies are only stored into the client browser. Cookies can be edited by user as it’s stored in our browsers which server wont deny it on most case , Sessions&#39; value can also be edited in browser but server will deny it as sessions is also stored in server .</p><p name="2518" id="2518" class="graf graf--p graf-after--p">Cookies are used to store less sensitive data eg: Date,Age,Gender,Name etc but Sessions are used for authentication process .Sessions are usually in encrypted form where as Cookie are in text form .</p><h3 name="1984" id="1984" class="graf graf--h3 graf-after--p">HTTP Headers &amp; Cookie | Sessions</h3><p name="b993" id="b993" class="graf graf--p graf-after--h3">The headers used with Cookie are :</p><ol class="postList"><li name="9d13" id="9d13" class="graf graf--li graf-after--p">Set-Cookie : eypaksdjf (It sets the cookie )</li><li name="499f" id="499f" class="graf graf--li graf-after--li">Cookie: eyepfasd (It sends the cookie to the server)</li><li name="8cf8" id="8cf8" class="graf graf--li graf-after--li">Set-Session:</li><li name="f9be" id="f9be" class="graf graf--li graf-after--li">Session:</li></ol><p name="6751" id="6751" class="graf graf--p graf-after--li">We use sessions and cookie in our day to day life . Eg: When we Login into our social media apps they provide us session , Cookie are added into browser to improve user experience .</p><h3 name="c308" id="c308" class="graf graf--h3 graf-after--p">Security Issues with Cookie !</h3><p name="4b1c" id="4b1c" class="graf graf--p graf-after--h3">For the most part, computer cookies are advantageous to your online experience. They assist websites in providing individualized experiences for each user, which is remarkable given the sheer amount of people that use the internet. But, like with anything online, hackers, cybercriminals, and bad actors have figured out how to take advantage of those using cookies.</p><h3 name="de6c" id="de6c" class="graf graf--h3 graf-after--p">CSRF</h3><p name="691c" id="691c" class="graf graf--p graf-after--h3">Cookies are send automatically in request send eg: If domain safe.com is vulnerable of CSRF then attacker can forge request to eg: Send friend request due to the fact that the Cookie are automatically attached in the forged requests .</p><p name="6c3c" id="6c3c" class="graf graf--p graf-after--p"><a href="https://owasp.org/www-community/attacks/csrf" data-href="https://owasp.org/www-community/attacks/csrf" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">Cross Site Request Forgery (CSRF) | OWASP Foundation</a></p><h3 name="700f" id="700f" class="graf graf--h3 graf-after--p">Session Fixation</h3><p name="6e63" id="6e63" class="graf graf--p graf-after--h3">Session fixation is a type of online assault. The attacker persuades the user to use a certain session ID. After the user logs in to the web application using the provided session ID, the attacker uses this valid session ID to gain access to the user’s account.</p><p name="c1ef" id="c1ef" class="graf graf--p graf-after--p"><a href="https://security.stackexchange.com/questions/67608/cookie-tossing-explained" data-href="https://security.stackexchange.com/questions/67608/cookie-tossing-explained" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">Cookie Tossing explained — Information Security Stack Exchange</a></p><h3 name="f831" id="f831" class="graf graf--h3 graf-after--p">XSS</h3><p name="854d" id="854d" class="graf graf--p graf-after--h3">Malicious JavaScript can access the non http cookie .</p><h3 name="f526" id="f526" class="graf graf--h3 graf-after--p">Cookie tossing attack</h3><p name="b367" id="b367" class="graf graf--p graf-after--h3">Cookie tossing is a type of attack that takes use of the fact that a subdomain can store a key=value pair in a cookie that can be read by the domain above it.</p><h3 name="9d50" id="9d50" class="graf graf--h3 graf-after--p">Cookie Capturing</h3><p name="4fd0" id="4fd0" class="graf graf--p graf-after--h3">Secure flag off cookies can be sniffed as they are in clear text format .</p><h3 name="1c4f" id="1c4f" class="graf graf--h3 graf-after--p">Blockchain Technology and Cookies !</h3><p name="7fa9" id="7fa9" class="graf graf--p graf-after--h3">Blockchain technology also users different types of cookies to perform different activities .</p><blockquote name="d99b" id="d99b" class="graf graf--blockquote graf-after--p">Cookies necessary for essential Websites purposes — Without this cookie like transactional pages and secure login accounts, would not be possible.</blockquote><blockquote name="0078" id="0078" class="graf graf--blockquote graf-after--blockquote">Functionality Cookies — Functionality cookies record information about choices you’ve made and allow us to tailor the Websites to you.</blockquote><blockquote name="7bbe" id="7bbe" class="graf graf--blockquote graf-after--blockquote">Performance / Analytics Cookies — We use performance/analytics cookies to analyze how the Websites are accessed, used, or is performing in order to provide you with a better user experience and to maintain, operate and continually improve the Websites.</blockquote><blockquote name="4d73" id="4d73" class="graf graf--blockquote graf-after--blockquote">Advertising and Tracking Cookies — These cookies enable such companies to track your activity across various sites where they display ads and record your activities so they can show ads that they consider relevant to you as you browse the Internet</blockquote><p name="c889" id="c889" class="graf graf--p graf-after--blockquote">Lets go to our first question “ Why website asks for cookie” ? Its because laws such as GDPR of the EU says website require user’s permission to set the cookie for tracking .</p><blockquote name="52d1" id="52d1" class="graf graf--blockquote graf-after--p">How does cookie tracks me ?</blockquote><p name="71d5" id="71d5" class="graf graf--p graf-after--blockquote">Lets take an <strong class="markup--strong markup--p-strong">example.com</strong> set an cookie which is stored into your browser . As we know cookies are limited to the domain &amp; subdomains <strong class="markup--strong markup--p-strong">eg: *.example.com.</strong> Now if your visit blog.com which contains iframe with example.com . Suddenly your browser will start to send the cookie to <strong class="markup--strong markup--p-strong">example.com</strong> through which example.com have full information that your are checking blog.com &amp; can now setup you an ads like your choice .</p><blockquote name="b9cc" id="b9cc" class="graf graf--blockquote graf-after--p">How to be safe from these tracking cookies ?</blockquote><p name="50b4" id="50b4" class="graf graf--p graf-after--blockquote">There are many extensions that can block these tracking cookie . Ads blockers can also block these malicious cookie . Browsers like brave does fabulous job on blocking these cookie and maintaining the privacy .</p><h3 name="83aa" id="83aa" class="graf graf--h3 graf-after--p">Conclusion</h3><p name="af41" id="af41" class="graf graf--p graf-after--h3 graf--trailing">Cookie &amp; Session are vital components of web . I hope your guys are now clear about cookie &amp; sessions its importance and difference . Every technology have some flaw , Likewise there are also some flaws in cookie &amp; sessions .</p></div></div></section>
+</section>
+
+<div class="prev"><a href="#">Prev</a></div>
+<div class="next"><a href="#">Next</a></div>
+
+<div class="footer">
+  <span class="copy">&copy; Romiyo karki</span>
+  </div>
+<!-- partial -->
+  
+</body>
+</html>

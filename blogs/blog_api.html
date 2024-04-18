@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Blog</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel="stylesheet" href="blog_style.css">
+<style>
+       * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 30px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 12px;
+      }
+      .aspectRatioPlaceholder {
+        max-width: auto !important;
+        max-height: auto !important;
+      }
+      .aspectRatioPlaceholder-fill {
+        padding-bottom: 0 !important;
+      }
+      header,
+      section[data-field=subtitle],
+      section[data-field=description] {
+        display: none;
+      }
+
+</style>
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="top">
+  <div class="header">
+    <h1><span>Hacking API  </span></h1>
+    <h2 class="author"><a href="#">By Romiyo <em></em> Karki</a></h2>
+ 
+</div>
+</div>
+<div class="content">
+
+<!-- Content-->
+<div class="begin">
+  <div class="date">
+    <span>Feb</span>
+    <span class="day">6</span></br>
+  </div>
+</br>
+</br>
+
+</header>
+<header>
+
+</header>
+<section data-field="subtitle" class="p-summary">
+Story of API misconfiguration to PII leak.
+</section>
+<section data-field="body" class="e-content">
+<section name="ed4d" class="section section--body section--first section--last"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><h3 name="ddaa" id="ddaa" class="graf graf--h3 graf--leading graf--title">Fuzzing API for profit</h3><p name="c282" id="c282" class="graf graf--p graf-after--h3">Story of API misconfiguration to PII leak.</p><p name="9f9f" id="9f9f" class="graf graf--p graf-after--p">Its a short story on how i found a api misconfiguration on admin page which eventually lead to PID leak .</p><p name="8ff6" id="8ff6" class="graf graf--p graf-after--p">I was going through recon on a some random private bug bounty program . Then i found a admin page :</p><pre data-code-block-mode="1" spellcheck="false" data-code-block-lang="yaml" name="0bd4" id="0bd4" class="graf graf--pre graf-after--p graf--preV2"><span class="pre--content"><span class="hljs-attr">Orginal domain:</span> <span class="hljs-string">example.com</span> <br /><span class="hljs-attr">Admin domain:</span> <span class="hljs-string">admin.example.com</span></span></pre><p name="aabc" id="aabc" class="graf graf--p graf-after--pre">As usel there was a basic admin login form . I tried some default password and fuzzed but couldn&#39;t get anywhere.</p><figure name="d9c4" id="d9c4" class="graf graf--figure graf-after--p"><img class="graf-image" data-image-id="1*9UxufphIavjOH_7s-_mEPg.png" data-width="629" data-height="643" data-is-featured="true" src="https://cdn-images-1.medium.com/max/800/1*9UxufphIavjOH_7s-_mEPg.png"><figcaption class="imageCaption">Layout of admin page .</figcaption></figure><p name="4db9" id="4db9" class="graf graf--p graf-after--figure">I tied SQL injection payload but could get anywhere. I viewed the burp request logs and i saw sth like:</p><pre data-code-block-mode="1" spellcheck="false" data-code-block-lang="bash" name="4282" id="4282" class="graf graf--pre graf-after--p graf--preV2"><span class="pre--content">POST /api/v1/admin/login</span></pre><p name="d3e5" id="d3e5" class="graf graf--p graf-after--pre">But idk the api call was being made from “example.com” than “admin.example.com”. I tried different things but at last i decided to fuzz the file . I got all 403 access denied and bunch of 400 error.</p><pre data-code-block-mode="1" spellcheck="false" data-code-block-lang="bash" name="0b17" id="0b17" class="graf graf--pre graf-after--p graf--preV2"><span class="pre--content"> GET /api/v1/admin/FUZZ</span></pre><p name="01a3" id="01a3" class="graf graf--p graf-after--pre">Then i changed the /v1 to /v1.1 and /v2 . I got the 200 in the initial login post request in /v2. Then i again fuzzed the api but now with /v2 .</p><pre data-code-block-mode="1" spellcheck="false" data-code-block-lang="bash" name="f7d3" id="f7d3" class="graf graf--pre graf-after--p graf--preV2"><span class="pre--content">GET /api/v2/admin/FUZZ</span></pre><p name="269e" id="269e" class="graf graf--p graf-after--pre">Now i didn&#39;t got any 404 and 403 error . I got some 400 Bad request in some path example:</p><pre data-code-block-mode="1" spellcheck="false" data-code-block-lang="bash" name="0e55" id="0e55" class="graf graf--pre graf-after--p graf--preV2"><span class="pre--content">/users -&gt; 400 <br />/files -&gt; 400<br />/items -&gt; 400 </span></pre><p name="f821" id="f821" class="graf graf--p graf-after--pre">I fuzzed again for another directory but got 404 error . Seeing the 404 error i knew valid path gives me 400 erorr and invalid 404 eroror</p><pre data-code-block-mode="1" spellcheck="false" data-code-block-lang="bash" name="2753" id="2753" class="graf graf--pre graf-after--p graf--preV2"><span class="pre--content"> GET /api/v2/admin/users/FUZZ</span></pre><p name="e638" id="e638" class="graf graf--p graf-after--pre">I tried changing the Method to POST,PUT,PATCH,OPTIONS but couldnt get anywhere. I decide to then fuzz for the ?query parameters .</p><pre data-code-block-mode="1" spellcheck="false" data-code-block-lang="bash" name="22f7" id="22f7" class="graf graf--pre graf-after--p graf--preV2"><span class="pre--content">GET /api/v2/admin/users?FUZZ=1337</span></pre><p name="e8f2" id="e8f2" class="graf graf--p graf-after--pre">After sometime i got error with <code class="markup--code markup--p-code">Not valid json</code> in ?filter=1337 error. Then i sent the {“filter”:1337} but returns with 200 STATUS but no data. For some while i fuzzed for SQLI payload for BlindSQLI payload but didnt worked.</p><p name="9781" id="9781" class="graf graf--p graf-after--p">Then i decide to again go for fuzzing the JSON key.</p><pre data-code-block-mode="1" spellcheck="false" data-code-block-lang="css" name="744b" id="744b" class="graf graf--pre graf-after--p graf--preV2"><span class="pre--content">?<span class="hljs-attribute">filter</span>{&quot;FUZZ&quot;:<span class="hljs-string">&quot;1337&quot;</span>}</span></pre><p name="9c1f" id="9c1f" class="graf graf--p graf-after--pre">After some while i got Invalid username in “first_name” json key. I then quickly set the first_name to my own first_name..</p><figure name="efbb" id="efbb" class="graf graf--figure graf-after--p"><img class="graf-image" data-image-id="1*giCKlkS6os_F_CRo1I4-hg.png" data-width="495" data-height="429" src="https://cdn-images-1.medium.com/max/800/1*giCKlkS6os_F_CRo1I4-hg.png"><figcaption class="imageCaption">Information leak</figcaption></figure><p name="58b0" id="58b0" class="graf graf--p graf-after--figure">I got all my PII used in that account .Attacker could get all the PII of every users as everyone can view the first_name of any user .</p><blockquote name="3f2f" id="3f2f" class="graf graf--blockquote graf-after--p graf--trailing">Takeaway : Fuzz if you don&#39;t know what to do .(If program allows) :)</blockquote></div></div></section>
+</section>
+
+<div class="prev"><a href="#">Prev</a></div>
+<div class="next"><a href="#">Next</a></div>
+
+<div class="footer">
+  <span class="copy">&copy; Romiyo karki</span>
+  </div>
+<!-- partial -->
+  
+</body>
+</html>
